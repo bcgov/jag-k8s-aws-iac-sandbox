@@ -1,22 +1,13 @@
-
-resource "aws_vpc" "eks_vpc" {
-  cidr_block = var.cidr_block
-  enable_dns_support = true
-  enable_dns_hostnames = true
-}
-
-resource "aws_subnet" "eks_subnet" {
-  count = 2
-  vpc_id = aws_vpc.eks_vpc.id
-  cidr_block = "10.0.${count.index}.0/24"
-  availability_zone = element(data.aws_availability_zones.available.names, count.index)
-}
-
 resource "aws_eks_cluster" "eks_cluster" {
   name     = var.eks_cluster
   role_arn = aws_iam_role.eks_cluster_role.arn
+  version  = "1.30"
+  
   vpc_config {
-    subnet_ids = aws_subnet.eks_subnet[*].id
+    subnet_ids = [
+      data.aws_subnet.app_tools_aza_net.id,
+      data.aws_subnet.data_tools_azb_net.id,
+    ]
   }
 }
 
@@ -62,16 +53,37 @@ resource "aws_iam_role_policy_attachment" "eks_node_policy" {
   role       = aws_iam_role.eks_node_role.name
 }
 
+resource "aws_iam_role_policy_attachment" "ec2_container_registry" {
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
+  role       = aws_iam_role.eks_node_role.name
+}
+
+resource "aws_iam_role_policy_attachment" "cni_policy" {
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy"
+  role       = aws_iam_role.eks_node_role.name
+}
+
 resource "aws_eks_node_group" "eks_nodes" {
   cluster_name    = aws_eks_cluster.eks_cluster.name
   node_group_name = var.node_group_name
   node_role_arn   = aws_iam_role.eks_node_role.arn
-  subnet_ids      = aws_subnet.eks_subnet[*].id
+  
+subnet_ids = [
+    data.aws_subnet.app_tools_aza_net.id,
+    data.aws_subnet.data_tools_azb_net.id,
+  ]
 
   scaling_config {
     desired_size = 1
     max_size     = 2
     min_size     = 1
   }
-}
 
+  instance_types  = ["t3.small"] 
+  ami_type       = "AL2_x86_64" 
+  disk_size      = 10         
+
+  tags = {
+    Name = var.node_group_name
+  }
+}
