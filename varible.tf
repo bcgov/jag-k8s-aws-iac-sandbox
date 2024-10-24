@@ -18,5 +18,10 @@ variable "cidr_block" {
   default = "10.0.0.0/16"
 }
 
+variable "kubernetes_version" {
+  description = "The version of Kubernetes to use"
+  default     = "1.30"  
+}
+
 
 data "aws_availability_zones" "available" {}

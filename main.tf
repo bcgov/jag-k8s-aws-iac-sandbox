@@ -1,7 +1,26 @@
+resource "aws_s3_bucket" "tf_state_bucket" {
+  bucket = "${var.eks_cluster}-tf-state"  
+  acl    = "private"
+
+  tags = {
+    Name        = "EKS Cluster State Bucket"
+    Environment = "production"
+    Cluster     = var.eks_cluster  
+  }
+}
+
+resource "aws_s3_bucket_versioning" "tf_state_bucket_versioning" {
+  bucket = aws_s3_bucket.tf_state_bucket.id
+
+  versioning_configuration {
+    status = "Enabled"  
+  }
+}
+
 resource "aws_eks_cluster" "eks_cluster" {
   name     = var.eks_cluster
   role_arn = aws_iam_role.eks_cluster_role.arn
-  version  = "1.30"
+  version  = var.kubernetes_version
   
   vpc_config {
     subnet_ids = [
