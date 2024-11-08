@@ -2,7 +2,7 @@ postgresql:
   enabled: false
 global:
   edition: enterprise
-  airbyteUrl: # e.g. https://airbyte.company.example
+  airbyteUrl: https://airbyte.company.example
   auth:
     instanceAdmin:
       firstName: Alex
