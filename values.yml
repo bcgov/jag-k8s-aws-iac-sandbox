@@ -1,0 +1,57 @@
+global:
+  edition: enterprise
+  airbyteUrl: # e.g. https://airbyte.company.example
+  auth:
+  instanceAdmin:
+    firstName: ## First name of admin user.
+    lastName: ## Last name of admin user.
+  identityProvider:
+    type: oidc
+    secretName: airbyte-config-secrets ## Name of your Kubernetes secret.
+    oidc:
+      domain: ## e.g. company.example
+      appName: ## e.g. airbyte
+      display-name: ## e.g. Company SSO - optional, falls back to appName if not provided
+      clientIdSecretKey: client-id
+      clientSecretSecretKey: client-secret
+  postgresql:
+  enabled: false
+
+  database:
+    # -- Secret name where database credentials are stored
+    secretName: "" # e.g. "airbyte-config-secrets"
+
+    # -- The database host
+    host: ""
+    # -- The key within `secretName` where host is stored 
+    #hostSecretKey: "" # e.g. "database-host"
+
+    # -- The database port
+    port: ""
+    # -- The key within `secretName` where port is stored 
+    #portSecretKey: "" # e.g. "database-port" 
+
+    # -- The database name
+    database: ""
+    # -- The key within `secretName` where the database name is stored 
+    #databaseSecretKey: "" # e.g. "database-name" 
+
+    # -- The database user
+    user: "" # -- The key within `secretName` where the user is stored 
+    #userSecretKey: "" # e.g. "database-user"
+
+    # -- The key within `secretName` where password is stored
+    passwordSecretKey: "" # e.g."database-password"
+
+  storage:
+    type: "S3"
+    storageSecretName: airbyte-config-secrets # Name of your Kubernetes secret.
+    bucket: ## S3 bucket names that you've created. We recommend storing the following all in one bucket.
+      log: airbyte-bucket
+      state: airbyte-bucket
+      workloadOutput: airbyte-bucket
+    s3:
+      region: "" ## e.g. us-east-1
+      authenticationType: credentials ## Use "credentials" or "instanceProfile"
+  
+
