@@ -1,22 +1,13 @@
+postgresql:
+  enabled: false
 global:
   edition: enterprise
   airbyteUrl: # e.g. https://airbyte.company.example
   auth:
-  instanceAdmin:
-    firstName: ## First name of admin user.
-    lastName: ## Last name of admin user.
-  identityProvider:
-    type: oidc
-    secretName: airbyte-config-secrets ## Name of your Kubernetes secret.
-    oidc:
-      domain: ## e.g. company.example
-      appName: ## e.g. airbyte
-      display-name: ## e.g. Company SSO - optional, falls back to appName if not providedxxxxx
-      clientIdSecretKey: client-id
-      clientSecretSecretKey: client-secret
-  postgresql:
-  enabled: false
-
+    instanceAdmin:
+      firstName: Alex
+      lastName:  Aleshchenko
+    
   database:
     # -- Secret name where database credentials are stored
     secretName: "airbyte-config-secrets"
@@ -36,14 +27,13 @@ global:
     passwordSecretKey: "database-password" 
 
   storage:
-    type: "S3"
-    storageSecretName: airbyte-config-secrets # Name of your Kubernetes secret.
+    type: S3
     bucket: ## S3 bucket names that you've created. We recommend storing the following all in one bucket.
-      log: airbyte-bucket
-      state: airbyte-bucket
-      workloadOutput: airbyte-bucket
+      log: airbyte-pdems
+      state: airbyte-pdems
+      workloadOutput: airbyte-pdems
     s3:
-      region: "" ## e.g. us-east-1
-      authenticationType: credentials ## Use "credentials" or "instanceProfile"
+      region: ca-central-1 
+      authenticationType: instanceProfile  
   
 
