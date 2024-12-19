@@ -34,4 +34,22 @@ variable "db_password" {
   sensitive   = true  
 }
 
+variable "app_name" {
+  description = "The name of the application"
+  type        = string
+  default     = "airbyte-webapp-svc"
+}
+
+variable "app_port" {
+  description = "The port on which the application listens"
+  type        = number
+  default     = 8080
+}
+
+variable "health_check_path" {
+  description = "The path for the health check endpoint"
+  type        = string
+  default     = "/"
+}
+
 data "aws_availability_zones" "available" {}

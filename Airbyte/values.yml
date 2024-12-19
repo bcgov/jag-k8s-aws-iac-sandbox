@@ -1,39 +1,18 @@
 postgresql:
-  enabled: false
+  enabled: true
 global:
   edition: enterprise
-  airbyteUrl: https://airbyte.company.example
+  airbyteUrl: http://127.0.0.1:8080
   auth:
     instanceAdmin:
-      firstName: Alex
-      lastName:  Aleshchenko
-    
-  database:
-    # -- Secret name where database credentials are stored
-    secretName: "airbyte-config-secrets"
-
-    # -- The database host
-    hostSecretKey: "database-host" 
-
-    # -- The database port
-    portSecretKey: "database-port" 
-
-    # -- The database name
-    databaseSecretKey: "database-name" 
-
-    # -- The database user
-    userSecretKey: "database-user" 
-
-    passwordSecretKey: "database-password" 
-
+      firstName: Nikhil
+      lastName:  Maddikunta
   storage:
-    type: S3
+    type: "S3"
     bucket: ## S3 bucket names that you've created. We recommend storing the following all in one bucket.
       log: airbyte-pdems
       state: airbyte-pdems
       workloadOutput: airbyte-pdems
     s3:
       region: ca-central-1 
-      authenticationType: instanceProfile  
-  
-
+      authenticationType: instanceProfile

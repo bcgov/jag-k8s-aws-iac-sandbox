@@ -34,3 +34,7 @@ data "aws_security_group" "sandboxdb_group"{
   name = "Data_sg"
 }
 
+data "aws_lb" "airbyte_alb" {
+  arn  = "arn:aws:elasticloadbalancing:ca-central-1:899650033111:loadbalancer/app/default/31cd6b2262a323c8"
+  name = "default"
+}

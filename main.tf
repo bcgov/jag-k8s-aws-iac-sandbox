@@ -82,14 +82,14 @@ subnet_ids = [
   ]
 
   scaling_config {
-    desired_size = 1
-    max_size     = 2
+    desired_size = 2
+    max_size     = 4
     min_size     = 1
   }
 
-  instance_types  = ["t3.small"] 
+  instance_types  = ["m7i.4xlarge"] 
   ami_type       = "AL2_x86_64" 
-  disk_size      = 10    
+  disk_size      = 50    
   version        = var.kubernetes_version
 
   tags = {
