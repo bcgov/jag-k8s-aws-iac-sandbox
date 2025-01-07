@@ -1,0 +1,74 @@
+name: Airbyte EKS Deployment
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'select the environment to deploy'
+        required: true
+        type: choice
+        options:
+        - dev
+        - sandbox
+        - prod 
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up AWS CLI
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+
+      - name: Set up kubectl
+        uses: aws-actions/eks-update-kubeconfig@v1
+        with:
+          cluster-name: ${{ secrets.EKS_CLUSTER_NAME }}
+          region: ${{ secrets.AWS_REGION }}
+
+
+      - name: Set up Helm
+        uses: azure/setup-helm@v3
+        with:
+          helm-version: v3.8.0
+
+
+      - name: Deploy Secrets 
+        run: |
+          Kubectl create namespace airbyte
+          kubectl apply -f Airbyte/secrets.yml -n airbyte
+
+
+      - name: Add Airbyte Helm Chart repository
+        run: |
+          helm repo add airbyte https://airbytehq.github.io/helm-charts
+          helm repo update
+
+
+      - name: Deploy Airbyte on EKS
+        run: |
+          helm install \
+          --namespace airbyte \
+          --values Airbyte/values.yml \
+          airbyte-enterprise \
+          airbyte/airbyte
+
+
+      - name: Deploy ALB 
+        run: |
+          kubectl apply -f Airbyte/alb.yml -n airbyte
+
+
+      - name: Wait for Airbyte to be deployed
+        run: |
+          kubectl rollout status deployment/airbyte -n airbyte
+
+
