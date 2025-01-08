@@ -14,8 +14,8 @@ on:
 
 jobs:
   terraform:
+    environment: ${{ inputs.env }}
     runs-on: ubuntu-latest
-    environment: production
 
     steps:
 
@@ -23,12 +23,11 @@ jobs:
         uses: actions/checkout@v3
 
 
-      - name: Set up AWS CLI
+      - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v2
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ secrets.AWS_REGION }}
+          role-to-assume: ${{ vars.TERRAFORM_DEPLOY_ROLE_ARN }}
+          aws-region: ${{ vars.AWS_REGION }}
       
       - name: setup node.js for terraform 
         uses: actions/setup-node@v3
