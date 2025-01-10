@@ -11,6 +11,9 @@ on:
         - dev
         - sandbox
         - prod 
+permissions: 
+  id-token: write  
+  contents: read 
 
 jobs:
   terraform:
