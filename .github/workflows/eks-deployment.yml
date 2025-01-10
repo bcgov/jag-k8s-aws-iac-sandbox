@@ -28,10 +28,11 @@ jobs:
           node-version: 20
 
       - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v2
+        uses: aws-actions/configure-aws-credentials@v1
         with:
           role-to-assume: ${{ vars.TERRAFORM_DEPLOY_ROLE_ARN }}
           aws-region: ${{ vars.AWS_REGION }}
+          session-name: github-actions-session
       
       - name: setup node.js for terraform 
         uses: actions/setup-node@v3
