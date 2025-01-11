@@ -1,4 +1,4 @@
-name: Airbyte EKS Deployment
+name: Airbyte Deployment
 
 on:
   workflow_dispatch:
@@ -11,6 +11,10 @@ on:
         - dev
         - sandbox
         - prod 
+
+permissions: 
+  id-token: write  
+  contents: read 
 
 jobs:
   deploy:
@@ -38,7 +42,7 @@ jobs:
       - name: Deploy Secrets 
         run: |
           Kubectl create namespace airbyte
-          kubectl apply -f Airbyte/secrets.yml -n airbyte
+          kubectl apply -f Airbyte/secrets.yml -n airbyte-test
 
 
       - name: Add Airbyte Helm Chart repository
@@ -50,19 +54,19 @@ jobs:
       - name: Deploy Airbyte on EKS
         run: |
           helm install \
-          --namespace airbyte \
+          --namespace airbyte-test \
           --values Airbyte/values.yml \
           airbyte-enterprise \
           airbyte/airbyte
 
 
-      - name: Deploy ALB 
-        run: |
-          kubectl apply -f Airbyte/alb.yml -n airbyte
+      # - name: Deploy ALB 
+      #   run: |
+      #     kubectl apply -f Airbyte/alb.yml -n airbyte
 
 
-      - name: Wait for Airbyte to be deployed
-        run: |
-          kubectl rollout status deployment/airbyte -n airbyte
+      # - name: Wait for Airbyte to be deployed
+      #   run: |
+      #     kubectl rollout status deployment/airbyte -n airbyte
 
 
