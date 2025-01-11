@@ -47,7 +47,6 @@ jobs:
 
       - name: Terraform Init
         run: |
-          cd jag-k8s-aws-iac-sandbox
           terraform init -backend-config="bucket=${{ secrets.TERRAFORM_BACKEND_BUCKET }}" -backend-config="region=${{ vars.AWS_REGION }}"
   
       - name: Terraform Plan
