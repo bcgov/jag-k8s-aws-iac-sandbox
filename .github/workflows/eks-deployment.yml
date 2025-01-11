@@ -51,11 +51,9 @@ jobs:
   
       - name: Terraform Plan
         run: |
-          cd jag-k8s-aws-iac-sandbox
           terraform plan -out=tfplan
 
-      - name: Terraform Apply
-        run: |
-          cd jag-k8s-aws-iac-sandbox
-          terraform apply -auto-approve tfplan
+      #- name: Terraform Apply
+       # run: |
+         # terraform apply -auto-approve tfplan
 
