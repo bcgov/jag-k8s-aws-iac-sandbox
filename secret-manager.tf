@@ -7,13 +7,13 @@ resource "aws_secretsmanager_secret" "pdems_secret" {
   }
 }
 
-resource "aws_secretsmanager_secret_version" "pdems_secret_version" {
-  secret_id     = aws_secretsmanager_secret.pdems_secret.id
-  secret_string = jsonencode({
-    username = var.db_username
-    password = var.db_password
-  })
-}
+# resource "aws_secretsmanager_secret_version" "pdems_secret_version" {
+#   secret_id     = aws_secretsmanager_secret.pdems_secret.id
+#   secret_string = jsonencode({
+#     username = var.db_username
+#     password = var.db_password
+#   })
+# }
 
 resource "aws_iam_policy" "secrets_manager_policy" {
   name        = "PDEMSSecretsManagerPolicy"
