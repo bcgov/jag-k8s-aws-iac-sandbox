@@ -38,10 +38,15 @@ jobs:
         uses: azure/setup-helm@v3
         with:
           helm-version: v3.8.0
+      
+      - name: Set up kubectl
+        uses: azure/setup-kubectl@v1
+        with:
+          kubectl-version: 'v1.24.0'
 
       - name: Deploy Secrets 
         run: |
-          Kubectl create namespace airbyte
+          Kubectl create namespace airbyte-test
           kubectl apply -f Airbyte/secrets.yml -n airbyte-test
 
 
