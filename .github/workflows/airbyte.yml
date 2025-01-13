@@ -50,6 +50,10 @@ jobs:
           sed -i -e "s/<PLACE_HOLDER_KEY>/${{ secrets.LICENSEKEY }}/g" Airbyte/secrets.yml
           sed -i -e "s/<PLACE_ADMIN_PASS>/${{ secrets.ADMINPASSWORD }}/g" Airbyte/secrets.yml
 
+      - name: Debug Check values of secrets
+        run: |
+          echo "LICENSEKEY is ${{ secrets.LICENSEKEY }}"
+          echo "ADMINPASSWORD is ${{ secrets.ADMINPASSWORD }}"
 
       - name: Deploy Secrets 
         run: |
