@@ -47,8 +47,8 @@ jobs:
           
       - name: Replace environment in config file
         run: |
-          sed -i 's/<PLACE_HOLDER_KEY>/${{ Secrets.LICENSEKEY }}/g' Airbyte/values.yml
-          sed -i 's/<PLACE_ADMIN_PASS>/${{ Secrets.ADMINPASSWORD }}/g' Airbyte/values.yml
+          sed -i 's/<PLACE_HOLDER_KEY>/${{ Secrets.LICENSEKEY }}/g' Airbyte/secrets.yml
+          sed -i 's/<PLACE_ADMIN_PASS>/${{ Secrets.ADMINPASSWORD }}/g' Airbyte/secrets.yml
 
       - name: Deploy Secrets 
         run: |
