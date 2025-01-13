@@ -63,7 +63,8 @@ jobs:
           --namespace airbyte-test \
           --values Airbyte/values.yml \
           airbyte-enterprise \
-          airbyte/airbyte
+          airbyte/airbyte \
+          --dry-run
 
 
       # - name: Deploy ALB 
