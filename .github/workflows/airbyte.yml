@@ -47,7 +47,7 @@ jobs:
 
       - name: Deploy Secrets 
         run: |
-          Kubectl create namespace airbyte-test
+          kubectl create namespace airbyte-test
           kubectl apply -f Airbyte/secrets.yml -n airbyte-test
 
 
