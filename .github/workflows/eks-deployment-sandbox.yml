@@ -1,0 +1,69 @@
+name: EKS Deployment
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'select the environment to deploy'
+        required: true
+        type: choice
+        options:
+        - dev
+        - sandbox
+        - prod 
+permissions: 
+  id-token: write  
+  contents: read 
+
+jobs:
+  terraform:
+    environment: ${{ inputs.env }}
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Configure AWS Credentials for dev
+        if: ${{ inputs.environment == 'dev' }}
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          role-to-assume: ${{ vars.TERRAFORM_DEPLOY_DEV_ROLE_ARN }}
+          aws-region: ${{ vars.AWS_REGION }}
+
+      - name: Configure AWS Credentials for sandbox
+        if: ${{ inputs.environment == 'sandbox' }}
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          role-to-assume: ${{ vars.TERRAFORM_DEPLOY_ROLE_ARN }}
+          aws-region: ${{ vars.AWS_REGION }}
+
+      - name: Configure AWS Credentials for prod
+        if: ${{ inputs.environment == 'prod' }}
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          role-to-assume: ${{ vars.TERRAFORM_DEPLOY_PROD_ROLE_ARN }}
+          aws-region: ${{ vars.AWS_REGION }}
+
+      
+      - name: setup node.js for terraform 
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v3
+
+      - name: Terraform Init
+        run: |
+          terraform init -backend-config="bucket=${{ secrets.TERRAFORM_BACKEND_BUCKET }}" -backend-config="region=${{ vars.AWS_REGION }}"
+  
+      - name: Terraform Plan
+        run: |
+          terraform plan -out=tfplan
+
+      - name: Terraform Apply
+        run: |
+          terraform apply -auto-approve tfplan
+
