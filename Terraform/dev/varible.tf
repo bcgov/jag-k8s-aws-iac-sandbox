@@ -1,17 +1,17 @@
 variable "node_group_name" {
-  default = "sandbox-node-group"
+  default = "dev-node-group"
 }
 
 variable "eks_node_role" {
-  default = "airbyte-sandbox-role"
+  default = "airbyte-dev-role"
 }
 
 variable "eks_cluster_role" {
-  default = "airbyte-role"
+  default = "airbyte-dev-role"
 }
 
 variable "eks_cluster" {
-  default = "k8s-airbyte-sandbox"
+  default = "k8s-dev"
 }
 
 variable "cidr_block" {

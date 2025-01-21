@@ -57,13 +57,24 @@ jobs:
 
       - name: Terraform Init
         run: |
-          terraform init -backend-config="bucket=${{ secrets.TERRAFORM_BACKEND_BUCKET }}" -backend-config="region=${{ vars.AWS_REGION }}"
+          cd terraform
+          if [ "${{ inputs.env  }}" = "dev" ]; then
+            cd dev
+            terraform init -backend-config="bucket=${{ secrets.TERRAFORM_DEV_BACKEND_BUCKET }}" -backend-config="region=${{ vars.AWS_REGION }}"
+          elif [ "${{ inputs.env  }}" = "prod" ]; then
+            cd prod
+            terraform init -backend-config="bucket=${{ secrets.TERRAFORM_PROD_BACKEND_BUCKET }}" -backend-config="region=${{ vars.AWS_REGION }}"
+          elif [ "${{ inputs.env  }}" = "sandbox" ]; then
+            cd sandbox
+            terraform init -backend-config="bucket=${{ secrets.TERRAFORM_BACKEND_BUCKET }}" -backend-config="region=${{ vars.AWS_REGION }}"
+          fi
+
   
       - name: Terraform Plan
         run: |
           terraform plan -out=tfplan
 
-      - name: Terraform Apply
-        run: |
-          terraform apply -auto-approve tfplan
+      # - name: Terraform Apply
+      #   run: |
+      #     terraform apply -auto-approve tfplan
 
