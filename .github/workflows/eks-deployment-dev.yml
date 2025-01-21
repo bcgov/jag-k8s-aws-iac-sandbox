@@ -44,7 +44,7 @@ jobs:
           cd Terraform
           if [ "${{ github.event.inputs.environment  }}" = "dev" ]; then
             cd dev
-            terraform init -backend-config="bucket=${{ secrets.TERRAFORM_DEV_BACKEND_BUCKET }}" -backend-config="region=${{ vars.AWS_REGION }} --reconfigure"
+            terraform init --reconfiure -backend-config="bucket=${{ secrets.TERRAFORM_DEV_BACKEND_BUCKET }}" -backend-config="region=${{ vars.AWS_REGION }} "
           elif [ "${{ github.event.inputs.environment  }}" = "prod" ]; then
             cd prod
             terraform init -backend-config="bucket=${{ secrets.TERRAFORM_PROD_BACKEND_BUCKET }}" -backend-config="region=${{ vars.AWS_REGION }}"
