@@ -17,7 +17,7 @@ permissions:
 
 jobs:
   terraform:
-    environment: ${{ github.event.inputs.environment }}
+    environment: ${{ inputs.env }}
     runs-on: ubuntu-latest
 
     steps:
