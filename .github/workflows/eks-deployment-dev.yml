@@ -57,7 +57,7 @@ jobs:
 
       - name: Terraform Init
         run: |
-          cd terraform
+          cd Terraform
           if [ "${{ inputs.env  }}" = "dev" ]; then
             cd dev
             terraform init -backend-config="bucket=${{ secrets.TERRAFORM_DEV_BACKEND_BUCKET }}" -backend-config="region=${{ vars.AWS_REGION }}"
