@@ -26,26 +26,10 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Configure AWS Credentials for dev
-        if: ${{ github.event.inputs.environment == 'dev' }}
         uses: aws-actions/configure-aws-credentials@v2
         with:
           role-to-assume: ${{ vars.TERRAFORM_DEPLOY_DEV_ROLE_ARN }}
           aws-region: ${{ vars.AWS_REGION }}
-
-      - name: Configure AWS Credentials for sandbox
-        if: ${{ github.event.inputs.environment == 'sandbox' }}
-        uses: aws-actions/configure-aws-credentials@v2
-        with:
-          role-to-assume: ${{ vars.TERRAFORM_DEPLOY_ROLE_ARN }}
-          aws-region: ${{ vars.AWS_REGION }}
-
-      - name: Configure AWS Credentials for prod
-        if: ${{ github.event.inputs.environment == 'prod' }}
-        uses: aws-actions/configure-aws-credentials@v2
-        with:
-          role-to-assume: ${{ vars.TERRAFORM_DEPLOY_PROD_ROLE_ARN }}
-          aws-region: ${{ vars.AWS_REGION }}
-
       
       - name: setup node.js for terraform 
         uses: actions/setup-node@v3
