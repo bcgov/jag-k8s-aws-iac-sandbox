@@ -17,7 +17,7 @@ permissions:
 
 jobs:
   terraform:
-    environment: ${{ inputs.env }}
+    environment: "${{ github.event.inputs.environment  }}"
     runs-on: ubuntu-latest
   
 
@@ -25,6 +25,9 @@ jobs:
 
       - name: Terraform security scan
         uses: triat/terraform-security-scan@v3.0.0
+        with:
+          directory: Terraform 
+
 
       - name: Checkout code
         uses: actions/checkout@v3
