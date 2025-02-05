@@ -17,14 +17,13 @@ permissions:
 
 jobs:
   terraform:
-    environment: "${{ github.event.inputs.environment  }}"
+    environment: ${{ inputs.env }}
     runs-on: ubuntu-latest
-  
 
     steps:
-      
-      - name: Checkout
-        uses: actions/checkout@v2
+
+      - name: Checkout code
+        uses: actions/checkout@v3
 
       - name: Configure AWS Credentials for dev
         uses: aws-actions/configure-aws-credentials@v2
@@ -53,7 +52,6 @@ jobs:
             cd sandbox
             terraform init -reconfigure -backend-config="bucket=${{ secrets.TERRAFORM_BACKEND_BUCKET }}" -backend-config="region=${{ vars.AWS_REGION }}"
           fi
-
   
       - name: Terraform Plan
         run: |
@@ -69,8 +67,6 @@ jobs:
             exit 1
           fi
           terraform plan -out=tfplan
-
       # - name: Terraform Apply
       #   run: |
       #     terraform apply -auto-approve tfplan
-
