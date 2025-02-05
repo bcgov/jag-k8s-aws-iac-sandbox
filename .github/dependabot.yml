@@ -7,6 +7,7 @@ updates:
       interval: "weekly"  # Check for updates weekly
       day: "tuesday"  # Check on Tuesday
       time: "18:00"  # Time in UTC
+    security-updates-only: true  # Only update dependencies with security fixes
 
   # Helm chart dependencies
   - package-ecosystem: "helm"
@@ -15,3 +16,4 @@ updates:
       interval: "weekly"  # Check for updates weekly
       day: "tuesday"  # Check on Tuesday
       time: "18:00"  # Time in UTC
+    security-updates-only: true  # Only update dependencies with security fixes
