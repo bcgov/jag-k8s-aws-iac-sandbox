@@ -1,0 +1,31 @@
+name: Trivy Scan
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  trivy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Trivy
+        run: |
+          sudo apt-get install -y wget
+          wget https://github.com/aquasecurity/trivy/releases/download/v0.33.0/trivy_0.33.0_Linux-64bit.deb
+          sudo dpkg -i trivy_0.33.0_Linux-64bit.deb
+
+      - name: Run Trivy scan for Helm chart
+        run: |
+          trivy config ./Airbyte  # Path to your Helm chart directory
+
+      - name: Run Trivy scan for Terraform
+        run: |
+          trivy config ./Terraform  # Path to your Terraform configuration files
