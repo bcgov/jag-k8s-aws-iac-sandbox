@@ -26,11 +26,11 @@ data "aws_subnet" "data_tools_aza_net" {
   }
 }
 
-data "aws_s3_bucket" "sandbox_s3" {
+data "aws_s3_bucket" "dev_s3" {
   bucket = "pdems-dev-tf-state"
 }
 
-data "aws_security_group" "sandboxdb_group"{
+data "aws_security_group" "dev_group"{
   name = "Data_sg"
 }
 
