@@ -67,6 +67,5 @@ jobs:
             exit 1
           fi
           terraform plan -out=tfplan
-      # - name: Terraform Apply
-      #   run: |
-      #     terraform apply -auto-approve tfplan
+      - name: Terraform Apply (Dry Run)
+        run: terraform show tfplan
