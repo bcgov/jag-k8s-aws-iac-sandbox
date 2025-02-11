@@ -1,5 +1,5 @@
 resource "aws_s3_bucket_versioning" "tf_state_bucket_versioning" {
-  bucket = data.aws_s3_bucket.sandbox_s3.id
+  bucket = data.aws_s3_bucket.dev_s3.id
 
   versioning_configuration {
     status = "Enabled"  # Enable versioningxxxx
