@@ -41,7 +41,7 @@ jobs:
 
       - name: Terraform Init
         run: |
-          cd Terraform
+          cd Terraform/dev
           # if [ "${{ github.event.inputs.environment  }}" = "dev" ]; then
           # cd dev
           # terraform init -reconfigure -backend-config="bucket=${{ secrets.TERRAFORM_DEV_BACKEND_BUCKET }}" -backend-config="region=${{ vars.AWS_REGION }}"
@@ -55,7 +55,7 @@ jobs:
   
       - name: Terraform Plan
         run: |
-          cd Terraform
+          cd Terraform/dev
           #   if [ "${{ github.event.inputs.environment }}" = "dev" ]; then
           # cd dev
           #   elif [ "${{ github.event.inputs.environment }}" = "prod" ]; then
@@ -69,7 +69,7 @@ jobs:
           terraform plan -out=tfplan
       - name: Terraform Apply
         run: |
-          cd Terraform
+          cd Terraform/dev
           #   if [ "${{ github.event.inputs.environment }}" = "dev" ]; then
           # cd dev
           #   elif [ "${{ github.event.inputs.environment }}" = "prod" ]; then
