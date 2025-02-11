@@ -1,6 +1,6 @@
 resource "aws_secretsmanager_secret" "pdems_secret" {
-  name        = "pdems-sandbox_secret"
-  description = "Sandbox PDems secret"
+  name        = "pdems-dev_secret"
+  description = "dev PDems secret"
 
   tags = {
     AirbyteManaged = "true"
