@@ -67,6 +67,17 @@ jobs:
             exit 1
           fi
           terraform plan -out=tfplan
-      - name: Terraform Apply 
+      - name: Terraform Apply
         run: |
-         terraform apply tfplan
+          cd Terraform
+            if [ "${{ github.event.inputs.environment }}" = "dev" ]; then
+          cd dev
+            elif [ "${{ github.event.inputs.environment }}" = "prod" ]; then
+          cd prod
+            elif [ "${{ github.event.inputs.environment }}" = "sandbox" ]; then
+          cd sandbox
+            else
+            echo "Invalid environment: ${{ github.event.inputs.environment }}"
+            exit 1
+          fi
+          terraform apply -out=tfplan
