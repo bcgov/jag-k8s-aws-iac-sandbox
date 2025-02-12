@@ -42,42 +42,14 @@ jobs:
       - name: Terraform Init
         run: |
           cd Terraform/dev
-          # if [ "${{ github.event.inputs.environment  }}" = "dev" ]; then
-          # cd dev
-            terraform init -reconfigure -backend-config="bucket=${{ secrets.TERRAFORM_DEV_BACKEND_BUCKET }}" -backend-config="region=${{ vars.AWS_REGION }}"
-          # elif [ "${{ github.event.inputs.environment  }}" = "prod" ]; then
-          #   cd prod
-          #   terraform init -reconfigure -backend-config="bucket=${{ secrets.TERRAFORM_PROD_BACKEND_BUCKET }}" -backend-config="region=${{ vars.AWS_REGION }}"
-          # elif [ "${{ github.event.inputs.environment  }}" = "sandbox" ]; then
-          #   cd sandbox
-            # terraform init -reconfigure -backend-config="bucket=${{ secrets.TERRAFORM_BACKEND_BUCKET }}" -backend-config="region=${{ vars.AWS_REGION }}"
-          # fi
-  
+          terraform init -reconfigure -backend-config="bucket=${{ secrets.TERRAFORM_DEV_BACKEND_BUCKET }}" -backend-config="region=${{ vars.AWS_REGION }}"
+
       - name: Terraform Plan
         run: |
           cd Terraform/dev
-          #   if [ "${{ github.event.inputs.environment }}" = "dev" ]; then
-          # cd dev
-          #   elif [ "${{ github.event.inputs.environment }}" = "prod" ]; then
-          # cd prod
-          #   elif [ "${{ github.event.inputs.environment }}" = "sandbox" ]; then
-          # cd sandbox
-          #   else
-          #   echo "Invalid environment: ${{ github.event.inputs.environment }}"
-          #   exit 1
-          # fi
           terraform plan -out=tfplan
+          
       - name: Terraform Apply
         run: |
           cd Terraform/dev
-          #   if [ "${{ github.event.inputs.environment }}" = "dev" ]; then
-          # cd dev
-          #   elif [ "${{ github.event.inputs.environment }}" = "prod" ]; then
-          # cd prod
-          #   elif [ "${{ github.event.inputs.environment }}" = "sandbox" ]; then
-          # cd sandbox
-          #   else
-          #   echo "Invalid environment: ${{ github.event.inputs.environment }}"
-          #   exit 1
-          # fi
           terraform apply tfplan
