@@ -8,7 +8,7 @@ on:
         required: true
         type: choice
         options:
-        - sandbox
+        - dev
 permissions: 
   id-token: write  
   contents: read 
