@@ -80,4 +80,4 @@ jobs:
           #   echo "Invalid environment: ${{ github.event.inputs.environment }}"
           #   exit 1
           # fi
-          terraform apply -out=tfplan
+          terraform apply tfplan
