@@ -1,7 +1,3 @@
-provider "aws" {
-  region = var.aws_region
-}
-
 # Fetch existing S3 bucket (Terraform state)
 data "aws_s3_bucket" "sandbox_s3" {
   bucket = var.s3_bucket_name
