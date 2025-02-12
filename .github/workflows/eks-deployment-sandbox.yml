@@ -8,9 +8,7 @@ on:
         required: true
         type: choice
         options:
-        - dev
         - sandbox
-        - prod 
 permissions: 
   id-token: write  
   contents: read 
@@ -49,7 +47,7 @@ jobs:
         run: |
           terraform plan -out=tfplan
 
-      # - name: Terraform Apply
-      #   run: |
-      #     terraform apply -auto-approve tfplan
+      - name: Terraform Apply
+        run: |
+          terraform apply tfplan
 

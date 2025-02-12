@@ -38,11 +38,11 @@ jobs:
           role-to-assume: ${{ vars.TERRAFORM_DEPLOY_ROLE_ARN }}
           aws-region: ${{ vars.AWS_REGION }}
 
-      - name: Configure AWS Credentials for prod
-        if: ${{ inputs.environment == 'prod' }}
+      - name: Configure AWS Credentials for test
+        if: ${{ inputs.environment == 'test' }}
         uses: aws-actions/configure-aws-credentials@v2
         with:
-          role-to-assume: ${{ vars.TERRAFORM_DEPLOY_PROD_ROLE_ARN }}
+          role-to-assume: ${{ vars.TERRAFORM_DEPLOY_TEST_ROLE_ARN }}
           aws-region: ${{ vars.AWS_REGION }}
 
 

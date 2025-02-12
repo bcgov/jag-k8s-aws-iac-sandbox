@@ -3,11 +3,11 @@ variable "node_group_name" {
 }
 
 variable "eks_node_role" {
-  default = "airbyte-dev-role"
+  default = "airbyte-dev-node-role"
 }
 
 variable "eks_cluster_role" {
-  default = "airbyte-dev-role"
+  default = "airbyte-dev-cluster-role"
 }
 
 variable "eks_cluster" {
