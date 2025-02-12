@@ -1,27 +1,22 @@
+provider "aws" {
+  region = var.aws_region
+}
+
+# Fetch existing S3 bucket (Terraform state)
+data "aws_s3_bucket" "sandbox_s3" {
+  bucket = var.s3_bucket_name
+}
+
+# Enable versioning for the S3 bucket
 resource "aws_s3_bucket_versioning" "tf_state_bucket_versioning" {
-  bucket = data.aws_s3_bucket.dev_s3.id
+  bucket = data.aws_s3_bucket.sandbox_s3.id
 
   versioning_configuration {
-    status = "Enabled"  # Enable versioningxxxx
+    status = "Enabled"
   }
 }
 
-resource "aws_eks_cluster" "eks_cluster" {
-  name     = var.eks_cluster
-  role_arn = aws_iam_role.eks_cluster_role.arn
-  version  = var.kubernetes_version
-  tags = {
-    Version = "1.0"
-  }
-  
-  vpc_config {
-    subnet_ids = [
-      data.aws_subnet.app_tools_aza_net.id,
-      data.aws_subnet.data_tools_azb_net.id,
-    ]
-  }
-}
-
+# Create IAM Role for EKS Cluster
 resource "aws_iam_role" "eks_cluster_role" {
   name = var.eks_cluster_role
 
@@ -38,11 +33,31 @@ resource "aws_iam_role" "eks_cluster_role" {
   })
 }
 
+# Attach required policies to EKS Cluster Role
 resource "aws_iam_role_policy_attachment" "eks_cluster_policy" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy"
   role       = aws_iam_role.eks_cluster_role.name
 }
 
+# Create the EKS Cluster
+resource "aws_eks_cluster" "eks_cluster" {
+  name     = var.eks_cluster
+  role_arn = aws_iam_role.eks_cluster_role.arn
+  version  = var.kubernetes_version
+  
+  vpc_config {
+    subnet_ids = [
+      data.aws_subnet.app_tools_aza_net.id,
+      data.aws_subnet.data_tools_azb_net.id,
+    ]
+  }
+
+  depends_on = [
+    aws_iam_role.eks_cluster_role
+  ]
+}
+
+# Create IAM Role for EKS Node Group
 resource "aws_iam_role" "eks_node_role" {
   name = var.eks_node_role
 
@@ -59,6 +74,7 @@ resource "aws_iam_role" "eks_node_role" {
   })
 }
 
+# Attach required policies to EKS Node Role
 resource "aws_iam_role_policy_attachment" "eks_node_policy" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy"
   role       = aws_iam_role.eks_node_role.name
@@ -74,12 +90,13 @@ resource "aws_iam_role_policy_attachment" "cni_policy" {
   role       = aws_iam_role.eks_node_role.name
 }
 
+# Create EKS Node Group
 resource "aws_eks_node_group" "eks_nodes" {
   cluster_name    = aws_eks_cluster.eks_cluster.name
   node_group_name = var.node_group_name
   node_role_arn   = aws_iam_role.eks_node_role.arn
   
-subnet_ids = [
+  subnet_ids = [
     data.aws_subnet.app_tools_aza_net.id,
     data.aws_subnet.data_tools_azb_net.id,
   ]
@@ -90,12 +107,17 @@ subnet_ids = [
     min_size     = 1
   }
 
-  instance_types  = ["m7i.4xlarge"] 
-  ami_type       = "AL2_x86_64" 
-  disk_size      = 50    
+  instance_types = ["m7i.4xlarge"]
+  ami_type       = "AL2_x86_64"
+  disk_size      = 50
   version        = var.kubernetes_version
 
   tags = {
     Name = var.node_group_name
   }
+
+  depends_on = [
+    aws_eks_cluster.eks_cluster,
+    aws_iam_role.eks_node_role
+  ]
 }
