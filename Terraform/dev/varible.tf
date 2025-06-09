@@ -20,7 +20,7 @@ variable "cidr_block" {
 
 variable "kubernetes_version" {
   description = "The version of Kubernetes to use"
-  default     = "1.31"  
+  default     = "1.32"  
 }
 
 # variable "db_username" {
