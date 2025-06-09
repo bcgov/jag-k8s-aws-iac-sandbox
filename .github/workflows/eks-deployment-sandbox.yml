@@ -45,9 +45,11 @@ jobs:
   
       - name: Terraform Plan
         run: |
+          cd Terraform/sandbox
           terraform plan -out=tfplan
-
+          
       - name: Terraform Apply
         run: |
+          cd Terraform/sandbox
           terraform apply tfplan
 
