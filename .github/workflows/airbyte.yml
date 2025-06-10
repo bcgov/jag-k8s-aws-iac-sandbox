@@ -78,7 +78,7 @@ jobs:
 
       - name: Deploy Airbyte on EKS
         run: |
-          helm upgrade --install airbyte-enterprise airbyte/airbyte --namespace airbyte-test --values Airbyte/values.yml
+          helm upgrade --install airbyte-enterprise airbyte/airbyte --create-namespace --namespace airbyte-test --values Airbyte/values.yml
 
 
       # - name: Deploy ALB 
