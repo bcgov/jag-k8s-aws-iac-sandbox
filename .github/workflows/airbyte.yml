@@ -65,9 +65,9 @@ jobs:
           sed -i -e "s/<PLACE_HOLDER_KEY>/${{ secrets.LICENSEKEY }}/g" Airbyte/secrets.yml
           sed -i -e "s/<PLACE_ADMIN_PASS>/${{ secrets.ADMINPASSWORD }}/g" Airbyte/secrets.yml
 
-      - name: remove ns
-        run: |
-          kubectl delete ns airbyte
+      # - name: remove ns
+      #   run: |
+      #     kubectl delete ns airbyte
 
 
       - name: Deploy Secrets 
