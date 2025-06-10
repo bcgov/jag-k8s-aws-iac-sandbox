@@ -67,7 +67,7 @@ jobs:
 
       - name: Deploy Secrets 
         run: |
-          kubectl create ns airbyte
+          # kubectl create ns airbyte
           kubectl apply -f Airbyte/secrets.yml -n airbyte
 
 
@@ -79,7 +79,7 @@ jobs:
 
       - name: Deploy Airbyte on EKS
         run: |
-          helm upgrade --install airbyte-enterprise airbyte/airbyte --namespace airbyte --values Airbyte/values.yml
+          helm upgrade --install airbyte-enterprise airbyte/airbyte --namespace airbyte --values Airbyte/values.yml --timeout 10m0s
 
 
       # - name: Deploy ALB 
