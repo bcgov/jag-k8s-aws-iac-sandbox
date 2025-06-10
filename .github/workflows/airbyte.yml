@@ -67,7 +67,8 @@ jobs:
 
       - name: Deploy Secrets 
         run: |
-          kubectl apply -f Airbyte/secrets.yml -n airbyte-test
+          kubectl create ns airbyte-test
+          kubectl apply -f Airbyte/secrets.yml -n airbyte
 
 
       - name: Add Airbyte Helm Chart repository
@@ -78,7 +79,7 @@ jobs:
 
       - name: Deploy Airbyte on EKS
         run: |
-          helm upgrade --install airbyte-enterprise airbyte/airbyte --create-namespace --namespace airbyte-test --values Airbyte/values.yml
+          helm upgrade --install airbyte-enterprise airbyte/airbyte --namespace airbyte --values Airbyte/values.yml
 
 
       # - name: Deploy ALB 
