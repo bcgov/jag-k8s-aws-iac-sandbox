@@ -1,5 +1,5 @@
 postgresql:
-  enabled: false
+  enabled: true
 global:
   edition: enterprise
   airbyteUrl: http://127.0.0.1:8080
