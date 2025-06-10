@@ -1,10 +1,10 @@
 postgresql:
-  enabled: true
+  enabled: false
 global:
   edition: enterprise
   airbyteUrl: http://127.0.0.1:8080
   auth:
-    instanceAdmin:
+    instanceAdmin:  
       firstName: Nikhil
       lastName:  Maddikunta
   storage:
