@@ -19,9 +19,8 @@ resource "aws_db_instance" "sandbox_db_instance" {
   storage_type            = "gp2"
 
   db_name                 = "airbyte"
-  username                = jsondecode(aws_secretsmanager_secret_version.pdems_secret_version.secret_string)["username"]
-  password                = jsondecode(aws_secretsmanager_secret_version.pdems_secret_version.secret_string)["password"]
-
+  username                = "airbyte_user"
+  password                = "airbyteuserpdems"
   db_subnet_group_name    = aws_db_subnet_group.sandbox_subnets.name
   vpc_security_group_ids  = [data.aws_security_group.sandboxdb_group.id]
   multi_az                = false
@@ -36,13 +35,4 @@ resource "aws_db_instance" "sandbox_db_instance" {
 # Output credentials and address for Kubernetes Secret creation
 output "db_address" {
   value = aws_db_instance.sandbox_db_instance.address
-}
-
-output "db_username" {
-  value = jsondecode(data.aws_secretsmanager_secret_version.pdems_secret_version.secret_string)["username"]
-}
-
-output "db_password" {
-  value     = jsondecode(data.aws_secretsmanager_secret_version.pdems_secret_version.secret_string)["password"]
-  sensitive = true
 }
