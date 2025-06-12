@@ -12,6 +12,7 @@ resource "aws_db_subnet_group" "sandbox_subnets" {
 
 resource "aws_db_instance" "sandbox_db_instance" {
   identifier              = "sandbox-airbyte-db"
+  storage_encrypted       = true
   engine                  = "postgres"
   engine_version          = "15.5"
   instance_class          = "db.t3.micro"
