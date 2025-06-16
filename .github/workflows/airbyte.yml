@@ -68,7 +68,7 @@ jobs:
 
       - name: Deploy Secrets 
         run: |
-          kubectl delete ns aibyte
+          kubectl delete ns airbyte
           kubectl create ns airbyte
           kubectl apply -f Airbyte/secrets.yml -n airbyte
 
