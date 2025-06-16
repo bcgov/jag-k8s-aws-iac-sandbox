@@ -65,13 +65,9 @@ jobs:
           sed -i -e "s/<PLACE_HOLDER_KEY>/${{ secrets.LICENSEKEY }}/g" Airbyte/secrets.yml
           sed -i -e "s/<PLACE_ADMIN_PASS>/${{ secrets.ADMINPASSWORD }}/g" Airbyte/secrets.yml
 
-
-      - name: Deploy Secrets 
+      - name: Create Namespace if not exists
         run: |
-          kubectl delete ns airbyte
-          kubectl create ns airbyte
-          kubectl apply -f Airbyte/secrets.yml -n airbyte
-
+          kubectl get ns airbyte || kubectl create ns airbyte
 
       - name: Add Airbyte Helm Chart repository
         run: |
