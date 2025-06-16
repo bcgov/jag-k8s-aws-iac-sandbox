@@ -1,18 +1,32 @@
 postgresql:
-  enabled: true
+  enabled: false
+
 global:
+  database:
+    # Use external RDS instance and reference credentials via secret
+    secretName: "airbyte-config-secrets"
+
+    host: "sandbox-airbyte-db.chhzfcyv2kas.ca-central-1.rds.amazonaws.com"
+    port: "5432"
+    database: "airbyte"
+    user: "airbyte_user"
+    # This references the **key name in the secret**, not the raw password
+    passwordSecretKey: "database-password"
+
   edition: enterprise
   airbyteUrl: http://127.0.0.1:8080
+
   auth:
     instanceAdmin:  
       firstName: Nikhil
-      lastName:  Maddikunta
+      lastName: Maddikunta
+
   storage:
     type: "S3"
-    bucket: ## S3 bucket names that you've created. We recommend storing the following all in one bucket.
+    bucket:
       log: airbyte-pdems
       state: airbyte-pdems
       workloadOutput: airbyte-pdems
     s3:
-      region: ca-central-1 
+      region: ca-central-1
       authenticationType: instanceProfile
