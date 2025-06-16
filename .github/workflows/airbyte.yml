@@ -69,6 +69,10 @@ jobs:
         run: |
           kubectl get ns airbyte || kubectl create ns airbyte
 
+      - name: Deploying secrets
+        run: |
+          kubectl apply -f secrets.yml
+
       - name: Add Airbyte Helm Chart repository
         run: |
           helm repo add airbyte https://airbytehq.github.io/helm-charts
