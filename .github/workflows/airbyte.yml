@@ -71,7 +71,7 @@ jobs:
 
       - name: Deploying secrets
         run: |
-          kubectl apply -f secrets.yml
+          kubectl apply -f secrets.yml -n airbyte
 
       - name: Add Airbyte Helm Chart repository
         run: |
